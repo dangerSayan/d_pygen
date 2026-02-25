@@ -1,0 +1,118 @@
+# ===============================
+# Python
+# ===============================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# ===============================
+# Virtual Environments
+# ===============================
+
+.venv/
+venv/
+env/
+ENV/
+
+# ===============================
+# Distribution / Packaging
+# ===============================
+
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+wheels/
+
+# setuptools
+*.manifest
+*.spec
+
+# ===============================
+# Installer logs
+# ===============================
+
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ===============================
+# Test / Coverage
+# ===============================
+
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.cache/
+
+# ===============================
+# Environment variables
+# ===============================
+
+.env
+.env.*
+*.env
+
+# ===============================
+# Local Config (Optional)
+# Uncomment if needed
+# ===============================
+
+# config.local.json
+
+# ===============================
+# Logs
+# ===============================
+
+*.log
+logs/
+
+# ===============================
+# IDE / Editor
+# ===============================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===============================
+# OS Files
+# ===============================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===============================
+# d_Pygen internal runtime (NEVER commit)
+# ===============================
+
+.d_pygen/
+
+# ===============================
+# Temporary files
+# ===============================
+
+*.tmp
+*.bak
+*.old
+
+# ===============================
+# Additional Python tooling
+# ===============================
+
+.python-version
+.mypy_cache/
+.ruff_cache/
+
+# Distribution artifacts (extra safety)
+*.whl
+*.tar.gz

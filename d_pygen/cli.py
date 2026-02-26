@@ -266,7 +266,8 @@ def main():
             "openrouter",
             "openai",
             "groq",
-            "together"
+            "together",
+            "gemini"
         ],
 
         default=None

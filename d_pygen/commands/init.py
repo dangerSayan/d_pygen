@@ -109,7 +109,7 @@ def run_init():
     # Already initialized → show menu
     # --------------------------------------------------
 
-    if CONFIG_DIR.exists():
+    if CONFIG_FILE.exists():
 
         console.print("[yellow]d_Pygen is already initialized.[/yellow]\n")
 
@@ -119,12 +119,10 @@ def run_init():
 
         choice = console.input("\nChoose (1/2/3): ").strip()
 
-        # OPTION 3 — CANCEL
         if choice == "3":
             console.print("[red]Initialization cancelled.[/red]")
             return
 
-        # OPTION 2 — RESET
         elif choice == "2":
 
             console.print(
@@ -140,14 +138,12 @@ def run_init():
             if not _safe_reset_config():
                 return
 
-        # OPTION 1 → Continue to reconfigure
 
     console.print()
     console.print("[bold cyan]Initializing d_Pygen environment...[/bold cyan]\n")
 
     try:
 
-        # Create directory structure
         create_directory(CONFIG_DIR)
         create_directory(PLUGINS_DIR)
         create_directory(TEMPLATES_DIR)
@@ -155,8 +151,8 @@ def run_init():
         create_directory(LOGS_DIR)
 
         create_registry()
+        create_config()
 
-        # Load config safely
         try:
             existing = load_config()
         except Exception:
@@ -166,65 +162,126 @@ def run_init():
 
         console.print("[bold cyan]AI Provider Setup[/bold cyan]\n")
 
-        # ========================================
-        # API PROVIDER SETUP
-        # ========================================
+        # =====================================================
+        # PROVIDER SELECTION
+        # =====================================================
 
-        console.print("[bold]Cloud API provider[/bold]")
+        console.print("[bold]Cloud API provider[/bold]\n")
+
         console.print("1. OpenRouter")
         console.print("2. OpenAI")
         console.print("3. Groq")
         console.print("4. Together AI")
-        console.print("5. Skip")
+        console.print("5. Gemini")
+        console.print("6. Custom provider (OpenAI-compatible)")
+        console.print("7. Skip")
 
-        default_api = existing.get("api_provider", "")
+        default_api = existing.get("api_provider") or "Skip"
 
         api_choice = console.input(
-            f"\nSelect API provider (1-5) [{default_api or 'Skip'}]: "
+            f"\nSelect provider (1-7) [{default_api}]: "
         ).strip()
 
+
         provider_map = {
-            "1": "openrouter",
-            "2": "openai",
-            "3": "groq",
-            "4": "together"
+            "1": ("openrouter", None),
+            "2": ("openai", None),
+            "3": ("groq", None),
+            "4": ("together", None),
+            "5": ("gemini", None),
         }
+
+
+        # =====================================================
+        # STANDARD PROVIDERS
+        # =====================================================
 
         if api_choice in provider_map:
 
-            provider = provider_map[api_choice]
+            provider, base_url = provider_map[api_choice]
+
             config["api_provider"] = provider
 
-            default_key = existing.get("api_key", "")
+            if base_url:
+                config["base_url"] = base_url
 
-            api_key = console.input(
-                f"Enter API key [{'*' * 8 if default_key else ''}]: "
-            ).strip()
+
+            api_key = console.input("Enter API key: ").strip()
 
             if api_key:
                 config["api_key"] = api_key
 
-            default_model = existing.get("api_model", "")
 
-            model = console.input(
-                f"Enter model [{default_model}]: "
-            ).strip()
+            model = console.input("Enter model name: ").strip()
 
             if model:
                 config["api_model"] = model
 
-            console.print("[green]✔ API configured[/green]\n")
 
-        # ========================================
+            console.print(f"[green]✔ {provider} configured[/green]\n")
+
+
+        # =====================================================
+        # CUSTOM PROVIDER
+        # =====================================================
+
+        elif api_choice == "6":
+
+            provider = console.input(
+                "Provider name (example: deepseek, mistral, anthropic): "
+            ).strip().lower()
+
+            base_url = console.input(
+                "Provider base_url (example: https://api.deepseek.com/v1): "
+            ).strip()
+
+            if not provider or not base_url:
+
+                console.print(
+                    "[red]Provider name and base_url are required[/red]"
+                )
+
+                return
+
+
+            config["api_provider"] = provider
+            config["base_url"] = base_url
+
+
+            api_key = console.input("API key: ").strip()
+
+            if api_key:
+                config["api_key"] = api_key
+
+
+            model = console.input("Model name: ").strip()
+
+            if model:
+                config["api_model"] = model
+
+
+            console.print(
+                f"[green]✔ Custom provider '{provider}' configured[/green]\n"
+            )
+
+
+        # =====================================================
+        # SKIP
+        # =====================================================
+
+        elif api_choice == "7":
+
+            console.print("[yellow]Skipped API setup[/yellow]\n")
+
+
+        # =====================================================
         # OLLAMA SETUP
-        # ========================================
+        # =====================================================
 
-        console.print("[bold]Ollama setup[/bold]")
-
-        default_ollama = existing.get("ollama_model", "llama3:latest")
+        console.print("[bold]Ollama fallback[/bold]\n")
 
         enable_ollama = console.input(
-            f"Enable Ollama fallback? (y/n) [{'y' if existing.get('fallback_provider') else 'n'}]: "
+            "Enable Ollama fallback? (y/n): "
         ).strip().lower()
 
         if enable_ollama == "y":
@@ -232,51 +289,42 @@ def run_init():
             config["fallback_provider"] = "ollama"
 
             model = console.input(
-                f"Ollama model [{default_ollama}]: "
+                "Ollama model [llama3:latest]: "
             ).strip()
 
-            if model:
-                config["ollama_model"] = model
+            config["ollama_model"] = model or "llama3:latest"
 
             console.print("[green]✔ Ollama enabled[/green]\n")
 
-        # ========================================
-        # PRIORITY SELECTION
-        # ========================================
 
-        console.print("[bold]Provider Priority[/bold]\n")
-        console.print("1. API → Ollama (recommended)")
+        # =====================================================
+        # PRIORITY
+        # =====================================================
+
+        console.print("[bold]Provider priority[/bold]\n")
+
+        console.print("1. API → Ollama")
         console.print("2. Ollama → API")
 
-        current_priority = existing.get("priority", ["api", "ollama"])
+        choice = console.input("Select (1-2): ").strip()
 
-        default_priority = (
-            "1" if current_priority == ["api", "ollama"] else "2"
-        )
+        if choice == "2":
 
-        priority_choice = console.input(
-            f"Select priority (1-2) [Default -> {default_priority}]: "
-        ).strip()
-
-        if priority_choice == "2":
             config["priority"] = ["ollama", "api"]
-        else:
-            config["priority"] = ["api", "ollama"]
-
-        # Determine primary provider
-        if config["priority"][0] == "api":
-            config["provider"] = config.get("api_provider")
-        else:
             config["provider"] = "ollama"
+
+        else:
+
+            config["priority"] = ["api", "ollama"]
+            config["provider"] = config.get("api_provider")
+
 
         save_config(config)
 
+
         console.print(
             Panel(
-                "[bold green]✔ d_Pygen initialized successfully[/bold green]\n\n"
-                f"Priority order:\n"
-                f"  1. {config['priority'][0]}\n"
-                f"  2. {config['priority'][1]}",
+                "[bold green]✔ Initialization complete[/bold green]",
                 border_style="green"
             )
         )

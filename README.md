@@ -1,392 +1,265 @@
 # d_Pygen ⚡
 
-**Universal AI-Powered Project Generator CLI**
+## Universal AI-Powered Project Generator CLI
 
-d_Pygen is a powerful, extensible, and intelligent command-line tool that automatically generates complete, production-ready project structures using AI, templates, and plugins.
+d_Pygen is a powerful, extensible, and intelligent command-line tool
+that generates complete, production-ready project structures using AI,
+templates, and plugins.
 
-It supports multiple programming languages, dependency managers, plugin marketplaces, and AI providers, allowing developers to bootstrap projects instantly with correct structure, dependencies, and configurations.
+It supports multiple languages, dependency managers, plugin
+marketplaces, and AI providers --- allowing developers to bootstrap
+projects instantly with correct structure, dependencies, and
+configurations.
+
+---
+
+# 📚 Table of Contents
+
+- Overview
+- Installation
+- Quick Start
+- Features
+- Command Reference
+- Core Commands
+- Config Commands
+- Plugin Commands
+- Template Commands
+- Cache Commands
+- Telemetry Commands
+- CLI Options
+- Example Workflows
+- Configuration
+- Supported Providers
+- Supported Platforms
+- Security
+- License
+- Author
+
+---
+
+# 🚀 Overview
+
+d_Pygen is an intelligent CLI that generates complete project structures
+using:
+
+- AI providers (OpenAI, OpenRouter, Gemini, Ollama, Groq, Together)
+- Built-in templates
+- Plugin system
+- Dependency detection and installation
+- Automatic environment and toolchain validation
+- Template variants and plugin extensions
+
+It eliminates manual setup and generates production-ready projects
+instantly.
 
 ---
 
 # 🚀 Installation
 
-## From Source
-
-```bash
-git clone https://github.com/dangerSayan/d_pygen.git
-
-cd d_pygen
-
-pip install -e .
-```
-
-## Quick Start
-
-d_Pygen init
-d_Pygen create "FastAPI backend"
-
-# ✨ Features
-
-## 🤖 AI-Powered Project Generation
-
-- Generate complete projects using natural language prompts
-- Example:
-
-  ```bash
-  d_Pygen create "FastAPI backend with JWT authentication"
-  ```
-
-- Automatically creates:
-  - folder structure
-  - source files
-  - configs
-  - dependency files
-
-Supports multiple AI providers:
-
-- OpenAI
-- OpenRouter
-- Groq
-- Together AI
-- Ollama (local AI)
-
----
-
-## 📦 Multi-Language Support
-
-Supports automatic project detection and dependency installation for:
-
-- Python (pip, poetry)
-- Node.js (npm, yarn, pnpm)
-- Rust (cargo)
-- Go (go modules)
-
----
-
-## 🔌 Plugin Marketplace System
-
-Install plugins to extend functionality.
-
-Plugins can add:
-
-- new templates
-- new generators
-- new project types
-
-Example:
-
-```bash
-d_Pygen plugins install fastapi
-```
-
----
-
-## 📁 Template Engine with Variants
-
-Use predefined templates:
-
-```bash
-d_Pygen create --template fastapi
-```
-
-Templates support variants:
-
-```bash
-d_Pygen create --template fastapi --variant full
-```
-
----
-
-## ⚙️ Automatic Dependency Installation
-
-Automatically installs dependencies after project generation.
-
-Supports:
-
-- pip
-- poetry
-- npm
-- yarn
-- pnpm
-- cargo
-- go mod
-
----
-
-## 🧠 Toolchain Detection (Doctor System)
-
-Check system readiness:
-
-```bash
-d_Pygen doctor
-```
-
-Detects:
-
-- installed runtimes
-- dependency managers
-- missing tools
-- environment issues
-
----
-
-## 🧩 Plugin Marketplace
-
-View available plugins:
-
-```bash
-d_Pygen plugins marketplace
-```
-
-Search plugins:
-
-```bash
-d_Pygen plugins search
-```
-
-Install plugin:
-
-```bash
-d_Pygen plugins install plugin_name
-```
-
-Update plugin:
-
-```bash
-d_Pygen plugins update plugin_name
-```
-
-Update all plugins:
-
-```bash
-d_Pygen plugins upgrade
-```
-
-Uninstall plugin:
-
-```bash
-d_Pygen plugins uninstall plugin_name
-```
-
----
-
-## 🧰 Dependency Management
-
-Scan project dependencies:
-
-```bash
-d_Pygen doctor
-```
-
----
-
-## ⚡ Interactive Project Creation
-
-Interactive wizard:
-
-```bash
-d_Pygen create
-```
-
-Prompts you step-by-step.
-
----
-
-## 🧾 Template Management
-
-List templates:
-
-```bash
-d_Pygen templates list
-```
-
-List template variants:
-
-```bash
-d_Pygen templates variants template_name
-```
-
----
-
-## ⚙️ Configuration Management
-
-View config:
-
-```bash
-d_Pygen config show
-```
-
-Set config value:
-
-```bash
-d_Pygen config set api_provider openrouter
-```
-
-Reset config:
-
-```bash
-d_Pygen config reset
-```
-
-Interactive config wizard:
-
-```bash
-d_Pygen config wizard
-```
-
----
-
-## 🧠 AI Provider Configuration
-
-Supports priority fallback system:
-
-Example priority:
-
-```
-OpenRouter → Ollama
-```
-
-Automatically switches if one fails.
-
----
-
-## 📊 Telemetry System (Optional)
-
-Anonymous usage tracking helps improve the tool.
-
-Disable telemetry:
-
-```bash
-d_Pygen telemetry disable
-```
-
-Enable telemetry:
-
-```bash
-d_Pygen telemetry enable
-```
-
-Clear telemetry:
-
-```bash
-d_Pygen telemetry clear
-```
-
----
-
-## 🧹 Cache Management
-
-Clear cache:
-
-```bash
-d_Pygen cache clear
-```
-
-Clear plugin cache:
-
-```bash
-d_Pygen plugins cache clear
-```
-
----
-
-## After publishing to PyPI
+## Install from PyPI (Recommended)
 
 ```bash
 pip install d_pygen
 ```
 
----
-
-# 🧑‍💻 Usage Examples
-
-## Generate FastAPI backend
+## Install from Source
 
 ```bash
-d_Pygen create "FastAPI backend with JWT auth"
+git clone https://github.com/dangerSayan/d_pygen.git
+cd d_pygen
+pip install -e .
 ```
 
 ---
 
-## Generate MERN stack project
+# ⚡ Quick Start
+
+Initialize configuration:
 
 ```bash
-d_Pygen create "MERN stack with authentication"
+d_Pygen init
 ```
 
----
-
-## Use template
+Create your first project:
 
 ```bash
-d_Pygen create --template fastapi
+d_Pygen create "FastAPI backend with JWT"
 ```
 
----
-
-## Use template variant
-
-```bash
-d_Pygen create --template fastapi --variant full
-```
-
----
-
-## Interactive mode
+Interactive mode:
 
 ```bash
 d_Pygen create
 ```
 
----
+Show help:
 
----
-
-# 🧠 How It Works
-
-Workflow:
-
+```bash
+d_Pygen help
 ```
-User Prompt
-   ↓
-AI Provider generates project plan
-   ↓
-Template engine creates files
-   ↓
-Dependency manager installs dependencies
-   ↓
-Project ready
+
+Show version:
+
+```bash
+d_Pygen version
 ```
 
 ---
 
-# 🔌 Plugin System
+# ✨ Features
 
-Plugins can extend:
+- AI-powered project generation
+- Template-based generation
+- Plugin marketplace and plugin system
+- Automatic dependency installation
+- Toolchain and environment validation
+- Interactive mode
+- Template variants
+- Cross-platform support
+- Telemetry control
+- Cache system
+- Multiple AI provider support
 
-- templates
-- generators
-- features
+---
 
-Plugin structure:
+# 📖 Command Reference
 
-```
-plugin/
-├── plugin.json
-└── templates/
+## 🧠 Core Commands
+
+```bash
+d_Pygen create "project description"
+d_Pygen create --template fastapi --variant minimal
+d_Pygen create "FastAPI backend" --install local
+d_Pygen init
+d_Pygen doctor
+d_Pygen update
+d_Pygen version
+d_Pygen help
 ```
 
 ---
 
-# 🧠 Supported AI Providers
+## ⚙️ Config Commands
 
-| Provider   | Supported |
-| ---------- | --------- |
-| OpenAI     | ✅        |
-| OpenRouter | ✅        |
-| Groq       | ✅        |
-| Together   | ✅        |
-| Ollama     | ✅        |
+```bash
+d_Pygen config show
+d_Pygen config set api_provider openrouter
+d_Pygen config set api_key YOUR_KEY
+d_Pygen config set api_model gpt-4o
+d_Pygen config reset
+d_Pygen config edit
+d_Pygen config wizard
+```
+
+---
+
+## 🔌 Plugin Commands
+
+```bash
+d_Pygen plugins install fastapi
+d_Pygen plugins uninstall fastapi
+d_Pygen plugins list
+d_Pygen plugins search
+d_Pygen plugins info fastapi
+d_Pygen plugins marketplace
+d_Pygen plugins update fastapi
+d_Pygen plugins update-all
+d_Pygen plugins upgrade
+d_Pygen plugins outdated
+d_Pygen plugins validate fastapi
+d_Pygen plugins publish
+d_Pygen plugins registry update
+d_Pygen plugins cache clear
+d_Pygen plugins cache info
+```
+
+---
+
+## 📁 Template Commands
+
+```bash
+d_Pygen templates list
+```
+
+---
+
+## 🧹 Cache Commands
+
+```bash
+d_Pygen cache list
+d_Pygen cache clear
+d_Pygen cache info
+```
+
+---
+
+## 📊 Telemetry Commands
+
+```bash
+d_Pygen telemetry status
+d_Pygen telemetry enable
+d_Pygen telemetry disable
+d_Pygen telemetry clear
+```
+
+Telemetry is anonymous and optional.
+
+---
+
+# ⚙️ CLI Options
+
+| Option       | Description             |
+| ------------ | ----------------------- |
+| `--provider` | Select AI provider      |
+| `--template` | Use template            |
+| `--variant`  | Template variant        |
+| `--install`  | Dependency install mode |
+| `--output`   | Output directory        |
+| `--name`     | Override project name   |
+| `--dry-run`  | Preview only            |
+| `--force`    | Overwrite existing      |
+| `--verbose`  | Enable verbose logging  |
+| `--no-cache` | Disable cache           |
+
+---
+
+# 🧠 Example Workflows
+
+```bash
+d_Pygen init
+d_Pygen create "FastAPI backend"
+d_Pygen plugins install fastapi
+d_Pygen doctor
+d_Pygen update
+```
+
+---
+
+# 📁 Configuration
+
+Configuration directory:
+
+    ~/.d_pygen/
+
+Contains:
+
+    config.json
+    plugins/
+    templates/
+    cache/
+    logs/
+    registry.json
+
+---
+
+# 🤖 Supported AI Providers
+
+- OpenAI
+- OpenRouter
+- Gemini
+- Groq
+- Together
+- Ollama
 
 ---
 
@@ -396,40 +269,15 @@ plugin/
 - Linux
 - macOS
 - WSL
-- Docker
 
 ---
 
 # 🔒 Security
 
-- Basic validation checks are performed before file generation and plugin installation.
-
----
-
-# 📈 Roadmap
-
-Future plans:
-
-- GUI interface
-- More templates
-- More plugins
-- More AI providers
-- Project update support
-
----
-
-# 🤝 Contributing
-
-Contributions welcome.
-
-Steps:
-
-```
-Fork repo
-Create branch
-Make changes
-Submit PR
-```
+- Plugin validation
+- Safe file generation
+- Plan validation
+- No arbitrary code execution
 
 ---
 
@@ -443,7 +291,7 @@ MIT License
 
 Sayan Bose
 
-GitHub: https://github.com/dangerSayan
+GitHub: https://github.com/dangerSayan/d_pygen
 
 ---
 

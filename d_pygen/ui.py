@@ -24,22 +24,23 @@ def show_banner():
 
     banner = figlet_format("d_Pygen", font="slant")
 
+    # Strip trailing spaces from each line
+    banner = "\n".join(line.rstrip() for line in banner.splitlines())
+
     text = Text(banner, style="bold bright_cyan")
 
     panel = Panel(
         Align.center(text),
         box=box.DOUBLE_EDGE,
         border_style="bright_magenta",
-        padding=(1, 2),
+        padding=(1, 1),   # reduce horizontal padding
         title="[bright_green]⚡ AI Project Generator CLI ⚡[/bright_green]",
-        subtitle="[bright_black]by danger_Sayan[/bright_black]"
+        subtitle="[bright_black]by danger_Sayan[/bright_black]",
+        expand=True       # VERY IMPORTANT
     )
-
     console.print("\n")
     console.print(panel)
-    console.print()
-
-
+    console.print("\n")
 
 # Section header
 def show_section(title):

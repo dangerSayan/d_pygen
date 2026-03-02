@@ -25,7 +25,7 @@ DEFAULT_CONFIG = {
 
     # FALLBACK provider
     "fallback_provider": None,
-    "ollama_model": "llama3:latest",
+    "ollama_model": None,
 
     # PRIORITY ORDER
     "priority": ["api", "ollama"],
@@ -40,7 +40,7 @@ DEFAULT_CONFIG = {
 
     "cache_ttl": 604800,
 
-    "output_dir": "C:/Dev/projects" if os.name == "nt" else str(Path.home() / "projects"),
+    "output_dir": str(Path("C:/Dev/projects")) if os.name == "nt" else str(Path.home() / "projects"),
 }
 
 
@@ -63,16 +63,18 @@ def _ensure_config_exists():
 def load_config():
     """
     Load config from file.
+    Does NOT auto-create config.
     """
-    _ensure_config_exists()
+
+    if not CONFIG_FILE.exists():
+        logger.info("Config file not found")
+        return DEFAULT_CONFIG.copy()
 
     try:
         config = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
 
-        # Merge with defaults
         merged = {**DEFAULT_CONFIG, **config}
 
-        # Expand output_dir safely
         if "output_dir" in merged and merged["output_dir"]:
             merged["output_dir"] = str(
                 Path(merged["output_dir"]).expanduser()
@@ -82,8 +84,7 @@ def load_config():
 
     except Exception as e:
         logger.error(f"Failed to load config: {e}")
-        return DEFAULT_CONFIG
-
+        return DEFAULT_CONFIG.copy()
 
 def save_config(new_config: dict):
     """

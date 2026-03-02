@@ -42,7 +42,7 @@ def create_config():
         config = DEFAULT_CONFIG.copy()
 
         # Add new defaults
-        config["output_dir"] = str(Path.cwd())
+        config["output_dir"] = DEFAULT_CONFIG["output_dir"]
 
         CONFIG_FILE.write_text(
             json.dumps(config, indent=2),
